@@ -1,19 +1,17 @@
+import os
 import telebot
 
-TOKEN = "ТОКЕН_ОТ_BOTFATHER"
-bot = telebot.TeleBot(8065822419:AAHtcv_ixToFCNWCFVsd-Rl7zqfainvMpoM)
+TOKEN = os.getenv("8065822419:AAHtcv_ixToFCNWCFVsd-Rl7zqfainvMpoM")   # <--- тут мы берём токен из Railway
+bot = telebot.TeleBot(TOKEN)
 
-# Команда /start
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "Привет! Я Paqify_bot — помогу найти упаковку для вашего производства: коробки, пакеты или любые другие решения. Что вас интересует?")
+    bot.reply_to(message, "Привет 👋 Я твой бот Paqify!")
 
-# Команда /help
 @bot.message_handler(commands=['help'])
 def help(message):
-    bot.reply_to(message, "📌 Доступные команды:\n/start – запуск\n/help – помощь\n/echo – повторю твои слова")
+    bot.reply_to(message, "📌 Доступные команды: /start /help /echo")
 
-# Команда /echo
 @bot.message_handler(commands=['echo'])
 def echo(message):
     text = message.text.replace("/echo", "").strip()
@@ -22,10 +20,9 @@ def echo(message):
     else:
         bot.reply_to(message, "❗ Используй так: /echo Привет")
 
-# Ответ на любые другие сообщения
 @bot.message_handler(func=lambda message: True)
 def all_messages(message):
     bot.reply_to(message, "Я пока не знаю эту команду 🤔 Напиши /help")
 
 print("Бот запущен...")
-bot.polling(none_stop=True)
+bot.infinity_polling(skip_pending=True)
