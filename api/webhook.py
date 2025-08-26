@@ -8,15 +8,26 @@ bot = telebot.TeleBot(BOT_TOKEN, parse_mode="HTML")
 def start_cmd(message):
     bot.reply_to(message, "Привет! Я теперь на Vercel ✅")
 
-# Vercel Python: entrypoint
+@bot.message_handler(func=lambda m: True)
+def echo(m):
+    bot.reply_to(m, f"Эхо: {m.text}")
+
 def handler(request):
     if request.method == "GET":
-        return "OK"
+        print("healthcheck GET")
+        return ("OK", 200)
+
     if request.method == "POST":
-        update = request.get_json(force=True, silent=True)
-        if not update:
-            return ("Bad Request", 400)
-        upd = telebot.types.Update.de_json(update)
-        bot.process_new_updates([upd])
-        return "OK"
+        try:
+            update = request.get_json(force=True, silent=True)
+            print("incoming update:", update)  # увидишь в Runtime Logs
+            if not update:
+                return ("Bad Request", 400)
+            upd = telebot.types.Update.de_json(update)
+            bot.process_new_updates([upd])
+            return ("OK", 200)  # явно возвращаем 200
+        except Exception as e:
+            print("webhook error:", e)
+            return ("Internal Error", 500)
+
     return ("Method Not Allowed", 405)
