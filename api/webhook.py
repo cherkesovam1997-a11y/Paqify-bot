@@ -8,7 +8,7 @@ bot = telebot.TeleBot(BOT_TOKEN, parse_mode="HTML")
 def start_cmd(message):
     bot.reply_to(message, "Привет! Я теперь на Vercel ✅")
 
-# Vercel вызывает эту функцию на каждый запрос
+# Vercel Python: entrypoint
 def handler(request):
     if request.method == "GET":
         return "OK"
