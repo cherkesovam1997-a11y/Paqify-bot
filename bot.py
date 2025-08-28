@@ -1,7 +1,7 @@
 import os
 import telebot
 
-TOKEN = os.getenv("8065822419:AAHtcv_ixToFCNWCFVsd-Rl7zqfainvMpoM")   # <--- тут мы берём токен из Railway
+TOKEN = os.getenv("8065822419:AAG_QyduYPaECh_zwNbRTcCItQckMpR8ZJQ")   # <--- тут мы берём токен из Railway
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
@@ -26,3 +26,4 @@ def all_messages(message):
 
 print("Бот запущен...")
 bot.infinity_polling(skip_pending=True)
+
